@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Slideshow</title>
+    <style>
+        #bubblebox { 
+            width:1089px; 
+            height:250px; 
+            margin:50px auto; 
+        }
+        
+        #bubbles { 
+            width:auto; 
+            margin:0px auto; 
+            text-align:center; 
+        }
+        
+        .bubble { 
+            display:inline-block; 
+            width:10px; 
+            height:10px; 
+            margin:24px 10px 0px 10px; 
+            background:rgba(0,0,255,.1); 
+            text-align:center; 
+            border:2px solid #999; 
+            border-radius:100%; 
+            font-size:17px; 
+            text-decoration:none; 
+            transition: background 0.3s linear 0s; 
+            cursor:pointer; 
+        }
+        
+        .bubble:first {
+            background:#999;
+        }
+        
+        #bubblecontent { 
+            margin:0px auto; 
+            transition:opacity 0.3s linear 0s; 
+            font-family: Arial;
+        }
+        
+        #bubblecontent > h2 { 
+            text-align:center; 
+            color:#7EA800; 
+        }
+        
+        #bubblecontent > img { 
+            width: 1089px;
+        }
+    </style>
+    
+
+</head>
+<body>
+<div id="bubblebox">
+    <div id="bubbles">
+        <div class="bubble" style="background:#999;"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+    </div>
+    <div id="bubblecontent">
+        <h2>Car</h2>
+        <img src="images/car.jpg" alt="car"/>
+    </div>
+</div>
+ 
+</body>
+
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>   
+<script>
+    
+var bubble_array, index = 0, interval;
+    
+var content_array = [
+
+        '<h2>Car</h2><img src="images/car.jpg" alt="car"/>',
+        '<h2>Aeroplane</h2><img src="images/plane.jpg" alt="plane"/>',
+        '<h2>Train</h2><img src="images/train.jpg" alt="train"/>',
+        '<h2>Ship</h2><img src="images/ship.jpg" alt="ship"/>'
+ 
+    ];
+    
+$(document).ready(function() {
+    
+   
+    bubble_array = $("#bubbles").children();
+    interval = setInterval(bubbleSlide, 5000);
+    
+    $(".bubble").on("click", function() {
+        
+        clearInterval(interval);
+        bubbles($(this).index());
+        
+    });
+    
+    
+});
+
+
+    function bubbles(index) {
+
+        $("#bubblecontent").fadeOut(1000, function() { 
+
+            // Loop over the bubbles and change all of their bubble_array background color
+            for(var i=0; i < bubble_array.length; i++){
+
+                $(bubble_array[i]).css("backgroundColor", "rgba(0,0,0,.1)");
+            }
+
+            // Change the target bubble background to be darker than the rest
+            $(bubble_array[index]).css("backgroundColor", "#999");
+
+            // Stall the bubble and content changing for just 300ms
+            setTimeout(function() {
+
+                $("#bubblecontent").html(content_array[index]);
+                $("#bubblecontent").show();
+
+            }, 300);
+
+        });
+
+    }
+
+    // This function is set to run every 5 seconds(5000ms)
+    function bubbleSlide(){
+        index++;
+
+        if(index == bubble_array.length){
+            index = 0; 
+        }
+
+        bubbles(index);
+    }
+
+
+</script>
+
+
+</html>
